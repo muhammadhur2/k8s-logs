@@ -1,0 +1,69 @@
+Defaulted container "haproxy" out of: haproxy, pxc-monit, pxc-init (init)
+{"time":"05/Aug/2024:11:55:10.169", "message": "haproxy -c -f /etc/haproxy-custom/haproxy-global.cfg -f /etc/haproxy/pxc/haproxy.cfg"}
+Configuration file is valid
+{"time":"05/Aug/2024:11:55:10.255", "message": "test -e /opt/percona/hookscript/hook.sh && source /opt/percona/hookscript/hook.sh"}
+{"time":"05/Aug/2024:11:55:10.257", "message": "haproxy -W -db -f /etc/haproxy-custom/haproxy-global.cfg -f /etc/haproxy/pxc/haproxy.cfg -p /etc/haproxy/pxc/haproxy.pid -S /etc/haproxy/pxc/haproxy-main.sock "}
+[NOTICE]   (1) : New worker (13) forked
+[NOTICE]   (1) : Loading success.
+[WARNING]  (13) : kill 16
+[WARNING]  (13) : Server galera-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10074ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Server galera-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10074ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 17
+[WARNING]  (13) : Backup Server galera-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 18
+[WARNING]  (13) : Backup Server galera-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[ALERT]    (13) : backend 'galera-nodes' has no server available!
+backend galera-nodes has no server available!
+[WARNING]  (13) : kill 19
+[WARNING]  (13) : Server galera-admin-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Server galera-admin-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 20
+[WARNING]  (13) : Backup Server galera-admin-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-admin-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 21
+[WARNING]  (13) : Backup Server galera-admin-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-admin-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[ALERT]    (13) : backend 'galera-admin-nodes' has no server available!
+backend galera-admin-nodes has no server available!
+[WARNING]  (13) : kill 22
+[WARNING]  (13) : Server galera-replica-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Server galera-replica-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 23
+[WARNING]  (13) : Server galera-replica-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Server galera-replica-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 1 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 24
+[WARNING]  (13) : Server galera-replica-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[ALERT]    (13) : backend 'galera-replica-nodes' has no server available!
+Server galera-replica-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+backend galera-replica-nodes has no server available!
+[WARNING]  (13) : kill 25
+[WARNING]  (13) : Server galera-mysqlx-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Server galera-mysqlx-nodes/mysql-lz4-pxc-0 is DOWN, reason: External check timeout, code: 0, check duration: 10001ms. 0 active and 2 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+{"time":"05/Aug/2024:11:55:28.161", "client_ip": "127.0.0.1", "client_port":"33088", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
+[WARNING]  (13) : kill 26
+[WARNING]  (13) : Backup Server galera-mysqlx-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-mysqlx-nodes/mysql-lz4-pxc-2 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 1 backup servers left. Running on backup. 0 sessions active, 0 requeued, 0 remaining in queue.
+[WARNING]  (13) : kill 27
+[WARNING]  (13) : Backup Server galera-mysqlx-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Backup Server galera-mysqlx-nodes/mysql-lz4-pxc-1 is DOWN, reason: External check timeout, code: 0, check duration: 10002ms. 0 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+[ALERT]    (13) : backend 'galera-mysqlx-nodes' has no server available!
+backend galera-mysqlx-nodes has no server available!
+{"time":"05/Aug/2024:11:55:33.456", "client_ip": "127.0.0.1", "client_port":"33100", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
+{"time":"05/Aug/2024:11:55:38.862", "client_ip": "127.0.0.1", "client_port":"34890", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
+[WARNING]  (13) : kill 41
+[WARNING]  (13) : kill 42
+[WARNING]  (13) : kill 43
+[WARNING]  (13) : kill 54
+{"time":"05/Aug/2024:11:55:43.257", "client_ip": "127.0.0.1", "client_port":"34906", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
+[WARNING]  (13) : kill 56
+[WARNING]  (13) : kill 57
+[WARNING]  (13) : kill 58
+[WARNING]  (13) : kill 59
+[WARNING]  (13) : kill 60
+[WARNING]  (13) : kill 69
+{"time":"05/Aug/2024:11:55:48.161", "client_ip": "127.0.0.1", "client_port":"58360", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
+[WARNING]  (13) : kill 75
+[WARNING]  (13) : kill 76
+{"time":"05/Aug/2024:11:55:53.056", "client_ip": "127.0.0.1", "client_port":"58368", "backend_source_ip": "-", "backend_source_port": "-", "frontend_name": "galera-admin-in", "backend_name": "galera-admin-nodes", "server_name":"<NOSRV>", "tw": "-1", "tc": "-1", "Tt": "0", "bytes_read": "0", "termination_state": "SC", "actconn": "1", "feconn" :"1", "beconn": "0", "srv_conn": "0", "retries": "0", "srv_queue": "0", "backend_queue": "0" }
