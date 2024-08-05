@@ -1,0 +1,164 @@
+Name:             mysql-lz4-pxc-0
+Namespace:        everest
+Priority:         0
+Service Account:  default
+Node:             hur-k8s-test-rqo5b5evw27p-node-6/192.168.10.54
+Start Time:       Mon, 05 Aug 2024 11:01:08 +0000
+Labels:           app.kubernetes.io/component=pxc
+                  app.kubernetes.io/instance=mysql-lz4
+                  app.kubernetes.io/managed-by=percona-xtradb-cluster-operator
+                  app.kubernetes.io/name=percona-xtradb-cluster
+                  app.kubernetes.io/part-of=percona-xtradb-cluster
+                  controller-revision-hash=mysql-lz4-pxc-5774d55b7
+                  statefulset.kubernetes.io/pod-name=mysql-lz4-pxc-0
+Annotations:      percona.com/configuration-hash: f59cc69b99b1b0913616a6b98ff13175
+                  percona.com/ssl-hash: ecdd50b2bd35c098f7e341c69ed94a42
+Status:           Running
+IP:               10.100.6.3
+IPs:
+  IP:           10.100.6.3
+Controlled By:  StatefulSet/mysql-lz4-pxc
+Init Containers:
+  pxc-init:
+    Container ID:  containerd://d341396664c79917ff9a35c1fe59fae9d03a67d01eeb76e5f7515d6a869e4814
+    Image:         docker.io/percona/percona-xtradb-cluster-operator:1.14.0
+    Image ID:      docker.io/percona/percona-xtradb-cluster-operator@sha256:3232ae01d0ff1e17922a7f1b0f3c69ada18d3a335e68ff09e25c9b931c1cd319
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /pxc-init-entrypoint.sh
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 Aug 2024 11:01:52 +0000
+      Finished:     Mon, 05 Aug 2024 11:01:53 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     50m
+      memory:  50M
+    Requests:
+      cpu:        50m
+      memory:     50M
+    Environment:  <none>
+    Mounts:
+      /var/lib/mysql from datadir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fdbt7 (ro)
+Containers:
+  pxc:
+    Container ID:  containerd://a59f114498766269783ee2ddbba05e88a733f56dfe670cd62ff99f1059894d8c
+    Image:         percona/percona-xtradb-cluster:8.0.35-27.1
+    Image ID:      docker.io/percona/percona-xtradb-cluster@sha256:1ef24953591ef1c1ce39576843d5615d4060fd09458c7a39ebc3e2eda7ef486b
+    Ports:         3306/TCP, 4444/TCP, 4567/TCP, 4568/TCP, 33062/TCP, 33060/TCP
+    Host Ports:    0/TCP, 0/TCP, 0/TCP, 0/TCP, 0/TCP, 0/TCP
+    Command:
+      /var/lib/mysql/pxc-entrypoint.sh
+    Args:
+      mysqld
+    State:          Running
+      Started:      Mon, 05 Aug 2024 11:02:10 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     600m
+      memory:  1825361100800m
+    Requests:
+      cpu:      570m
+      memory:   1728724336640m
+    Liveness:   exec [/var/lib/mysql/liveness-check.sh] delay=300s timeout=450s period=10s #success=1 #failure=3
+    Readiness:  exec [/var/lib/mysql/readiness-check.sh] delay=15s timeout=450s period=30s #success=1 #failure=5
+    Environment Variables from:
+      mysql-lz4-env-vars-pxc  Secret  Optional: true
+    Environment:
+      PXC_SERVICE:                    mysql-lz4-pxc-unready
+      MONITOR_HOST:                   %
+      MYSQL_ROOT_PASSWORD:            <set to the key 'root' in secret 'internal-mysql-lz4'>        Optional: false
+      XTRABACKUP_PASSWORD:            <set to the key 'xtrabackup' in secret 'internal-mysql-lz4'>  Optional: false
+      MONITOR_PASSWORD:               <set to the key 'monitor' in secret 'internal-mysql-lz4'>     Optional: false
+      CLUSTER_HASH:                   1885740
+      OPERATOR_ADMIN_PASSWORD:        <set to the key 'operator' in secret 'internal-mysql-lz4'>  Optional: false
+      LIVENESS_CHECK_TIMEOUT:         450
+      READINESS_CHECK_TIMEOUT:        450
+      DEFAULT_AUTHENTICATION_PLUGIN:  caching_sha2_password
+    Mounts:
+      /etc/my.cnf.d from auto-config (rw)
+      /etc/mysql/init-file from mysql-init-file (rw)
+      /etc/mysql/mysql-users-secret from mysql-users-secret-file (rw)
+      /etc/mysql/ssl from ssl (rw)
+      /etc/mysql/ssl-internal from ssl-internal (rw)
+      /etc/mysql/vault-keyring-secret from vault-keyring-secret (rw)
+      /etc/percona-xtradb-cluster.conf.d from config (rw)
+      /tmp from tmp (rw)
+      /var/lib/mysql from datadir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fdbt7 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  datadir:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  datadir-mysql-lz4-pxc-0
+    ReadOnly:   false
+  tmp:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      mysql-lz4-pxc
+    Optional:  true
+  ssl-internal:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mysql-lz4-ssl-internal
+    Optional:    true
+  ssl:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mysql-lz4-ssl
+    Optional:    false
+  auto-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      auto-mysql-lz4-pxc
+    Optional:  true
+  vault-keyring-secret:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mysql-lz4-vault
+    Optional:    true
+  mysql-users-secret-file:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  internal-mysql-lz4
+    Optional:    false
+  mysql-init-file:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  mysql-lz4-mysql-init
+    Optional:    true
+  kube-api-access-fdbt7:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age   From                     Message
+  ----     ------                  ----  ----                     -------
+  Warning  FailedScheduling        50m   default-scheduler        0/6 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/6 nodes are available: 6 No preemption victims found for incoming pod..
+  Normal   Scheduled               50m   default-scheduler        Successfully assigned everest/mysql-lz4-pxc-0 to hur-k8s-test-rqo5b5evw27p-node-6
+  Warning  FailedMount             50m   kubelet                  MountVolume.SetUp failed for volume "mysql-init-file" : failed to sync secret cache: timed out waiting for the condition
+  Normal   SuccessfulAttachVolume  50m   attachdetach-controller  AttachVolume.Attach succeeded for volume "pvc-7a8b1484-7002-4ac8-afc0-93593553fa55"
+  Normal   Pulling                 49m   kubelet                  Pulling image "docker.io/percona/percona-xtradb-cluster-operator:1.14.0"
+  Normal   Pulled                  49m   kubelet                  Successfully pulled image "docker.io/percona/percona-xtradb-cluster-operator:1.14.0" in 7.763547078s (7.763584948s including waiting)
+  Normal   Created                 49m   kubelet                  Created container pxc-init
+  Normal   Started                 49m   kubelet                  Started container pxc-init
+  Normal   Pulling                 49m   kubelet                  Pulling image "percona/percona-xtradb-cluster:8.0.35-27.1"
+  Normal   Pulled                  49m   kubelet                  Successfully pulled image "percona/percona-xtradb-cluster:8.0.35-27.1" in 15.908577213s (15.90859111s including waiting)
+  Normal   Created                 49m   kubelet                  Created container pxc
+  Normal   Started                 49m   kubelet                  Started container pxc
+  Warning  Unhealthy               48m   kubelet                  Readiness probe failed: ERROR 2003 (HY000): Can't connect to MySQL server on '10.100.6.3:33062' (111)
++ [[ '' == \P\r\i\m\a\r\y ]]
++ exit 1
