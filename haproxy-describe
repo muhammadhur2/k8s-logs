@@ -1,0 +1,163 @@
+Name:             mysql-lz4-haproxy-0
+Namespace:        everest
+Priority:         0
+Service Account:  default
+Node:             hur-k8s-test-rqo5b5evw27p-node-5/192.168.10.22
+Start Time:       Mon, 05 Aug 2024 11:01:06 +0000
+Labels:           app.kubernetes.io/component=haproxy
+                  app.kubernetes.io/instance=mysql-lz4
+                  app.kubernetes.io/managed-by=percona-xtradb-cluster-operator
+                  app.kubernetes.io/name=percona-xtradb-cluster
+                  app.kubernetes.io/part-of=percona-xtradb-cluster
+                  controller-revision-hash=mysql-lz4-haproxy-85c8c8d5b7
+                  statefulset.kubernetes.io/pod-name=mysql-lz4-haproxy-0
+Annotations:      percona.com/configuration-hash: 9f86ee66f3b72440e51b8a220faeb794
+                  percona.com/env-secret-config-hash: 95eba1819981f96adcff77fbec158260
+Status:           Running
+IP:               10.100.7.2
+IPs:
+  IP:           10.100.7.2
+Controlled By:  StatefulSet/mysql-lz4-haproxy
+Init Containers:
+  pxc-init:
+    Container ID:  containerd://8871e151c945715089421f7d50b33005ff66485c6019de463ffe007d2c73f381
+    Image:         docker.io/percona/percona-xtradb-cluster-operator:1.14.0
+    Image ID:      docker.io/percona/percona-xtradb-cluster-operator@sha256:3232ae01d0ff1e17922a7f1b0f3c69ada18d3a335e68ff09e25c9b931c1cd319
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /pxc-init-entrypoint.sh
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 05 Aug 2024 11:01:18 +0000
+      Finished:     Mon, 05 Aug 2024 11:01:20 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     50m
+      memory:  50M
+    Requests:
+      cpu:        50m
+      memory:     50M
+    Environment:  <none>
+    Mounts:
+      /var/lib/mysql from bin (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-d8dwc (ro)
+Containers:
+  haproxy:
+    Container ID:   containerd://94f91a18bc4554c4872355810de3292fd0c310ae9276949a31e2d8e16558e9ca
+    Image:          percona/percona-xtradb-cluster-operator:1.14.0-haproxy
+    Image ID:       docker.io/percona/percona-xtradb-cluster-operator@sha256:15b9dad6d59c7995456b92fb1b5c17501ecbc8bafb758ff6e7417d409f06bbbd
+    Ports:          3306/TCP, 3307/TCP, 3309/TCP, 33062/TCP, 33060/TCP
+    Host Ports:     0/TCP, 0/TCP, 0/TCP, 0/TCP, 0/TCP
+    State:          Running
+      Started:      Mon, 05 Aug 2024 11:55:10 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    137
+      Started:      Mon, 05 Aug 2024 11:51:40 +0000
+      Finished:     Mon, 05 Aug 2024 11:55:08 +0000
+    Ready:          False
+    Restart Count:  14
+    Limits:
+      cpu:     200m
+      memory:  204Mi
+    Requests:
+      cpu:      190m
+      memory:   195Mi
+    Liveness:   exec [/usr/local/bin/liveness-check.sh] delay=60s timeout=30s period=30s #success=1 #failure=4
+    Readiness:  exec [/usr/local/bin/readiness-check.sh] delay=15s timeout=30s period=5s #success=1 #failure=3
+    Environment Variables from:
+      haproxy-env-secret  Secret  Optional: true
+    Environment:
+      PXC_SERVICE:              mysql-lz4-pxc
+      LIVENESS_CHECK_TIMEOUT:   30
+      READINESS_CHECK_TIMEOUT:  30
+    Mounts:
+      /etc/haproxy-custom/ from haproxy-custom (rw)
+      /etc/haproxy/pxc from haproxy-auto (rw)
+      /etc/mysql/haproxy-env-secret from haproxy-env-secret (rw)
+      /etc/mysql/mysql-users-secret from mysql-users-secret-file (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-d8dwc (ro)
+  pxc-monit:
+    Container ID:  containerd://b2caf55e1ef6d2745b20725e0db94eee587396ab4120c6be170b2b3169277d74
+    Image:         percona/percona-xtradb-cluster-operator:1.14.0-haproxy
+    Image ID:      docker.io/percona/percona-xtradb-cluster-operator@sha256:15b9dad6d59c7995456b92fb1b5c17501ecbc8bafb758ff6e7417d409f06bbbd
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      /usr/bin/peer-list
+      -on-change=/usr/bin/add_pxc_nodes.sh
+      -service=$(PXC_SERVICE)
+    State:          Running
+      Started:      Mon, 05 Aug 2024 11:01:31 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment Variables from:
+      haproxy-env-secret  Secret  Optional: true
+    Environment:
+      PXC_SERVICE:  mysql-lz4-pxc
+    Mounts:
+      /etc/haproxy-custom/ from haproxy-custom (rw)
+      /etc/haproxy/pxc from haproxy-auto (rw)
+      /etc/mysql/haproxy-env-secret from haproxy-env-secret (rw)
+      /etc/mysql/mysql-users-secret from mysql-users-secret-file (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-d8dwc (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             False
+  ContainersReady   False
+  PodScheduled      True
+Volumes:
+  haproxy-custom:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      mysql-lz4-haproxy
+    Optional:  true
+  haproxy-auto:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  mysql-users-secret-file:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  internal-mysql-lz4
+    Optional:    false
+  haproxy-env-secret:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  haproxy-env-secret
+    Optional:    true
+  bin:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  kube-api-access-d8dwc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                   From               Message
+  ----     ------     ----                  ----               -------
+  Normal   Scheduled  54m                   default-scheduler  Successfully assigned everest/mysql-lz4-haproxy-0 to hur-k8s-test-rqo5b5evw27p-node-5
+  Normal   Pulling    54m                   kubelet            Pulling image "docker.io/percona/percona-xtradb-cluster-operator:1.14.0"
+  Normal   Pulled     53m                   kubelet            Successfully pulled image "docker.io/percona/percona-xtradb-cluster-operator:1.14.0" in 10.033247617s (10.033260702s including waiting)
+  Normal   Created    53m                   kubelet            Created container pxc-init
+  Normal   Started    53m                   kubelet            Started container pxc-init
+  Normal   Pulling    53m                   kubelet            Pulling image "percona/percona-xtradb-cluster-operator:1.14.0-haproxy"
+  Normal   Started    53m                   kubelet            Started container haproxy
+  Normal   Created    53m                   kubelet            Created container haproxy
+  Normal   Pulled     53m                   kubelet            Successfully pulled image "percona/percona-xtradb-cluster-operator:1.14.0-haproxy" in 8.191247139s (8.191252551s including waiting)
+  Normal   Pulling    53m                   kubelet            Pulling image "percona/percona-xtradb-cluster-operator:1.14.0-haproxy"
+  Normal   Pulled     53m                   kubelet            Successfully pulled image "percona/percona-xtradb-cluster-operator:1.14.0-haproxy" in 1.499639752s (1.49964446s including waiting)
+  Normal   Created    53m                   kubelet            Created container pxc-monit
+  Normal   Started    53m                   kubelet            Started container pxc-monit
+  Warning  Unhealthy  39m (x18 over 52m)    kubelet            Liveness probe failed: ERROR 2013 (HY000): Lost connection to MySQL server at 'reading initial communication packet', system error: 2
+  Warning  BackOff    18m (x9 over 20m)     kubelet            Back-off restarting failed container haproxy in pod mysql-lz4-haproxy-0_everest(70ae1edb-37b9-40a7-b7d4-4bcd836951d6)
+  Warning  Unhealthy  14m (x71 over 51m)    kubelet            Readiness probe failed: ERROR 2003 (HY000): Can't connect to MySQL server on '127.0.0.1:33062' (111)
+  Warning  Unhealthy  4m4s (x464 over 53m)  kubelet            Readiness probe failed: ERROR 2013 (HY000): Lost connection to MySQL server at 'reading initial communication packet', system error: 2
