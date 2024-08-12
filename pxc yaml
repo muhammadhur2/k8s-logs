@@ -1,0 +1,207 @@
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBCluster
+metadata:
+  creationTimestamp: "2024-08-12T05:38:05Z"
+  finalizers:
+  - delete-pxc-pods-in-order
+  - delete-pxc-pvc
+  - delete-ssl
+  generation: 2
+  name: mysql-mae
+  namespace: everest
+  ownerReferences:
+  - apiVersion: everest.percona.com/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: DatabaseCluster
+    name: mysql-mae
+    uid: c981e945-f00b-4282-90c1-b4b1a78afb8e
+  resourceVersion: "18236239"
+  uid: 14dea3b9-9a4b-4361-a5e2-4b575f760a15
+spec:
+  backup:
+    image: percona/percona-xtradb-cluster-operator:1.14.0-pxc8.0.36-backup-pxb8.0.35
+    pitr:
+      enabled: false
+      resources: {}
+      storageName: ""
+  crVersion: 1.14.0
+  haproxy:
+    affinity:
+      antiAffinityTopologyKey: none
+    configuration: |2
+
+          global
+            log stdout format raw local0
+            maxconn 4048
+            external-check
+            insecure-fork-wanted
+            hard-stop-after 10s
+            stats socket /etc/haproxy/pxc/haproxy.sock mode 600 expose-fd listeners level admin
+
+          defaults
+            no option dontlognull
+            log-format '{"time":"%t", "client_ip": "%ci", "client_port":"%cp", "backend_source_ip": "%bi", "backend_source_port": "%bp",  "frontend_name": "%ft", "backend_name": "%b", "server_name":"%s", "tw": "%Tw", "tc": "%Tc", "Tt": "%Tt", "bytes_read": "%B", "termination_state": "%ts", "actconn": "%ac", "feconn" :"%fc", "beconn": "%bc", "srv_conn": "%sc", "retries": "%rc", "srv_queue": "%sq", "backend_queue": "%bq" }'
+            default-server init-addr last,libc,none
+            log global
+            mode tcp
+            retries 10
+            timeout client 28800s
+            timeout connect 100500
+            timeout server 28800s
+
+          resolvers kubernetes
+            parse-resolv-conf
+
+          frontend galera-in
+            bind *:3309 accept-proxy
+            bind *:3306
+            mode tcp
+            option clitcpka
+            default_backend galera-nodes
+
+          frontend galera-admin-in
+            bind *:33062
+            mode tcp
+            option clitcpka
+            default_backend galera-admin-nodes
+
+          frontend galera-replica-in
+            bind *:3307
+            mode tcp
+            option clitcpka
+            default_backend galera-replica-nodes
+
+          frontend galera-mysqlx-in
+            bind *:33060
+            mode tcp
+            option clitcpka
+            default_backend galera-mysqlx-nodes
+
+          frontend stats
+            bind *:8404
+            mode http
+            http-request use-service prometheus-exporter if { path /metrics }
+    enabled: true
+    envVarsSecret: haproxy-env-secret
+    exposePrimary:
+      enabled: true
+      loadBalancerSourceRanges:
+      - <lb-range>
+      type: LoadBalancer
+    exposeReplicas:
+      enabled: true
+      loadBalancerSourceRanges:
+      - <lb-range>
+      type: LoadBalancer
+    image: percona/percona-xtradb-cluster-operator:1.14.0-haproxy
+    lifecycle: {}
+    livenessProbes:
+      timeoutSeconds: 30
+    loadBalancerSourceRanges:
+    - <lb-range>
+    readinessProbes:
+      timeoutSeconds: 30
+    replicasServiceType: LoadBalancer
+    resources:
+      limits:
+        cpu: 200m
+        memory: 204Mi
+      requests:
+        cpu: 190m
+        memory: 195Mi
+    serviceType: LoadBalancer
+    sidecarResources: {}
+    size: 3
+  initContainer: {}
+  pmm:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 300M
+  proxysql:
+    affinity:
+      antiAffinityTopologyKey: none
+    expose: {}
+    lifecycle: {}
+    livenessProbes: {}
+    readinessProbes: {}
+    resources:
+      limits:
+        cpu: 600m
+        memory: 1G
+    sidecarResources: {}
+  pxc:
+    affinity:
+      antiAffinityTopologyKey: none
+    configuration: "[mysqld]\nbinlog_cache_size = 131072\nbinlog_expire_logs_seconds
+      = 604800\nbinlog_format = ROW\nbinlog_stmt_cache_size = 131072\nglobal-connection-memory-limit
+      = 18446744073709551615\nglobal-connection-memory-tracking = false\ninnodb_adaptive_hash_index
+      = True\ninnodb_buffer_pool_chunk_size = 2097152\ninnodb_buffer_pool_instances
+      = 1\ninnodb_buffer_pool_size = 1398838681\ninnodb_ddl_threads = 2\ninnodb_flush_log_at_trx_commit
+      = 2\ninnodb_flush_method = O_DIRECT\ninnodb_io_capacity_max = 1800\ninnodb_monitor_enable
+      = ALL\ninnodb_page_cleaners = 1\ninnodb_parallel_read_threads = 1\ninnodb_purge_threads
+      = 4\ninnodb_redo_log_capacity = 415269664\njoin_buffer_size = 524288\nmax_connections
+      = 152\nmax_heap_table_size = 16777216\nread_rnd_buffer_size = 393216\nreplica_compressed_protocol
+      = 1\nreplica_exec_mode = STRICT\nreplica_parallel_type = LOGICAL_CLOCK\nreplica_parallel_workers
+      = 4\nreplica_preserve_commit_order = ON\nsort_buffer_size = 524288\nsql_mode
+      = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION,TRADITIONAL,STRICT_ALL_TABLES'\nsync_binlog
+      = 1\ntable_definition_cache = 4096\ntable_open_cache = 4096\ntable_open_cache_instances
+      = 4\ntablespace_definition_cache = 512\nthread_cache_size = 11\nthread_pool_size
+      = 4\nthread_stack = 1048576\ntmp_table_size = 16777216\nwsrep_slave_threads
+      = 1\nwsrep_sync_wait = 3\nwsrep_trx_fragment_size = 1048576\nwsrep_trx_fragment_unit
+      = bytes\nwsrep-provider-options = evs.delayed_keep_period=PT545S;evs.inactive_timeout=PT90S;gmcast.peer_timeout=PT11S;gmcast.time_wait=PT13S;pc.linger=PT45S;evs.delay_margin=PT22S;evs.suspect_timeout=PT45S;gcs.fc_limit=96;gcs.max_packet_size=98304;evs.send_window=768;evs.user_send_window=768;evs.join_retrans_period=PT3S;evs.inactive_check_period=PT3S;evs.stats_report_period=PT1M;evs.max_install_timeouts=3;pc.announce_timeout=PT45S;pc.recovery=true;gcache.size=477560113;gcache.recover=yes;\n
+      \   "
+    expose: {}
+    image: percona/percona-xtradb-cluster:8.0.36-28.1
+    lifecycle: {}
+    livenessProbes:
+      timeoutSeconds: 450
+    podDisruptionBudget:
+      maxUnavailable: 1
+    readinessProbes:
+      timeoutSeconds: 450
+    resources:
+      limits:
+        cpu: 600m
+        memory: 1825361100800m
+      requests:
+        cpu: 570m
+        memory: 1728724336640m
+    serviceType: ClusterIP
+    sidecarResources: {}
+    size: 3
+    volumeSpec:
+      persistentVolumeClaim:
+        resources:
+          requests:
+            storage: 25G
+        storageClassName: gp-ssd
+  secretsName: everest-secrets-mysql-mae
+  updateStrategy: SmartUpdate
+  upgradeOptions:
+    apply: never
+    schedule: 0 4 * * *
+status:
+  backup: {}
+  conditions:
+  - lastTransitionTime: "2024-08-12T05:38:08Z"
+    status: "True"
+    type: initializing
+  haproxy:
+    labelSelectorPath: app.kubernetes.io/component=haproxy,app.kubernetes.io/instance=mysql-mae,app.kubernetes.io/managed-by=percona-xtradb-cluster-operator,app.kubernetes.io/name=percona-xtradb-cluster,app.kubernetes.io/part-of=percona-xtradb-cluster
+    size: 3
+    status: initializing
+  host: <host-ip>
+  logcollector: {}
+  observedGeneration: 2
+  pmm: {}
+  proxysql: {}
+  pxc:
+    labelSelectorPath: app.kubernetes.io/component=pxc,app.kubernetes.io/instance=mysql-mae,app.kubernetes.io/managed-by=percona-xtradb-cluster-operator,app.kubernetes.io/name=percona-xtradb-cluster,app.kubernetes.io/part-of=percona-xtradb-cluster
+    ready: 2
+    size: 3
+    status: initializing
+  ready: 2
+  size: 6
+  state: initializing
